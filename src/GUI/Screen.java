@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
-public class Screen extends JFrame implements ActionListener, MouseListener, FocusListener
+public class Screen extends JFrame implements ActionListener, FocusListener
 {
 
     JPanel panel1;
@@ -14,7 +14,9 @@ public class Screen extends JFrame implements ActionListener, MouseListener, Foc
     JTextArea textArea1;
     JLabel label1;
 
-    String search;
+    String search = null;
+
+    Boolean searchCheck = false;
 
     String pathname = "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\textfiles";
 
@@ -50,7 +52,7 @@ public class Screen extends JFrame implements ActionListener, MouseListener, Foc
         button1.setToolTipText("Search for the term above.");
         button1.setBounds(770, 100, 80, 40);
 
-        textArea1 = new JTextArea("Search Results:\n");
+        textArea1 = new JTextArea("Search Results:");
         textArea1.setColumns(70);
         textArea1.setRows(6);
         textArea1.setBorder(BorderFactory.createLineBorder(Color.black, 2));
@@ -64,7 +66,6 @@ public class Screen extends JFrame implements ActionListener, MouseListener, Foc
 
 
 
-
         frame1.setVisible(true);
 
     }
@@ -74,24 +75,30 @@ public class Screen extends JFrame implements ActionListener, MouseListener, Foc
     {
         if (e.getSource()==button1)
         {
-            panel1.remove(textField1);
-            panel1.remove(button1);
-            panel1.add(textArea1);
-            panel1.add(newsearch);
-            panel1.revalidate();
-            panel1.repaint();
-
-            textArea1.append("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-            textArea1.append("Searching for the word: "+ search + "\n");
-            textArea1.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-            File directoryPath = new File(pathname);
-            File filesList[] = directoryPath.listFiles();
-
-            for(File file : filesList)
+            if (search != null)
             {
-                FileProcessor currentfile = new FileProcessor(file.getAbsolutePath(), file.getName());
-                textArea1.append("\n" + currentfile.SearchFile(search));
+                panel1.remove(textField1);
+                panel1.remove(button1);
+                panel1.add(textArea1);
+                panel1.add(newsearch);
+                panel1.revalidate();
+                panel1.repaint();
 
+                textArea1.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                textArea1.append("Searching for the word: "+ search + "\n");
+                textArea1.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                File directoryPath = new File(pathname);
+                File filesList[] = directoryPath.listFiles();
+
+                for(File file : filesList)
+                {
+                    FileProcessor currentfile = new FileProcessor(file.getAbsolutePath(), file.getName());
+                    textArea1.append("\n" + currentfile.SearchFile(search));
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Please input a search term.");
             }
         }
         if (e.getSource() == newsearch)
@@ -109,42 +116,16 @@ public class Screen extends JFrame implements ActionListener, MouseListener, Foc
     }
 
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-
-    }
-
-    @Override
     public void focusLost(FocusEvent e)
     {
         if (e.getSource() == textField1)
         {
             search = textField1.getText();
         }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+
     }
 }
