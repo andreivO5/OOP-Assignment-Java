@@ -9,16 +9,14 @@ public class Screen extends JFrame implements ActionListener, FocusListener
 {
 
     JPanel panel1;
-    JButton button1, newsearch;
-    JTextField textField1;
+    JButton button1, newsearch, pathButton;
+    JTextField textField1, pathField;
     JTextArea textArea1;
-    JLabel label1;
+    JLabel label1, pathLabel;
 
-    String search = null;
-
-    Boolean searchCheck = false;
-
-    String pathname = "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\textfiles";
+    public String search = null;
+    public String changePath = null;
+    public String pathname = "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\textfiles";
 
     public Screen(String title)
     {
@@ -64,6 +62,25 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         newsearch.setToolTipText("Search for another word.");
         newsearch.setBounds(620, 250, 140, 40);
 
+        pathLabel = new JLabel("Change the search space");
+        panel1.add(pathLabel);
+        pathLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        pathLabel.setBounds(300,600,400,40);
+
+        pathField = new JTextField();
+        panel1.add(pathField);
+        pathField.addFocusListener(this);
+        pathField.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
+        pathField.setFont(textFieldFont);
+        pathField.setBounds(80, 650, 540, 30);
+
+        pathButton = new JButton("Apply Search Space");
+        panel1.add(pathButton);
+        pathButton.setBackground(Color.green);
+        pathButton.addActionListener(this);
+        pathButton.setToolTipText("This button applies the new search space.");
+        pathButton.setBounds(660, 650, 200, 30);
+
 
 
         frame1.setVisible(true);
@@ -75,7 +92,11 @@ public class Screen extends JFrame implements ActionListener, FocusListener
     {
         if (e.getSource()==button1)
         {
-            if (search != null)
+            if (textField1.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "Please input a search term.");
+            }
+            else
             {
                 panel1.remove(textField1);
                 panel1.remove(button1);
@@ -96,10 +117,6 @@ public class Screen extends JFrame implements ActionListener, FocusListener
                     textArea1.append("\n" + currentfile.SearchFile(search));
                 }
             }
-            else
-            {
-                JOptionPane.showMessageDialog(this, "Please input a search term.");
-            }
         }
         if (e.getSource() == newsearch)
         {
@@ -112,6 +129,18 @@ public class Screen extends JFrame implements ActionListener, FocusListener
 
             textArea1.setText("Search Results:\n");
         }
+        if (e.getSource() == pathButton)
+        {
+            if (pathField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "Please enter a valid pathname");
+            }
+            else
+            {
+                pathname = changePath;
+                JOptionPane.showMessageDialog(this, "Search location set to: "+ pathname);
+            }
+        }
 
     }
 
@@ -121,6 +150,10 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         if (e.getSource() == textField1)
         {
             search = textField1.getText();
+        }
+        if (e.getSource() == pathField)
+        {
+            changePath = pathField.getText();
         }
     }
 
