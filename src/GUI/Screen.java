@@ -1,3 +1,10 @@
+/*
+    Program Description: OOP Assignment Java - Search Engine
+    Author: C21342953 Andrei Voiniciuc
+    Date: 08/04/2023
+
+ */
+
 package GUI;
 
 import javax.swing.*;
