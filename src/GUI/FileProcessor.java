@@ -33,12 +33,52 @@ public class FileProcessor
             int count = 0;
             int searchcount = 0;
 
+            // check for logic '&&' double word search
+            Pattern logicPattern = Pattern.compile("\\s&&\\s");
+            Matcher matchToLogic = logicPattern.matcher(search);
+            boolean logicCheck = matchToLogic.find();
+
             // check for double word search
             Pattern whitespace = Pattern.compile("\\s");
             Matcher matchToWhitespace = whitespace.matcher(search);
             boolean doubleWordCheck = matchToWhitespace.find();
 
-            if (doubleWordCheck == true)
+            if (logicCheck == true) // search process for logic double words
+            {
+                String[] logicWords = search.split("\\s&&\\s");
+                String logicWord1 = logicWords[0];
+                String logicWord2 = logicWords[1];
+
+                boolean checkLogic1 = false;
+                boolean checkLogic2 = false;
+                System.out.println("next file");
+
+                while (scanner1.hasNext()) {
+                    if (scanner1.hasNext(logicWord1)) // if the next word is the search word
+                    {
+                        checkLogic1 = true;
+                        System.out.println("Found word 1");
+                    }
+
+                    if (scanner1.hasNext(logicWord2)) // if the next word is the search word
+                    {
+                        checkLogic2 = true;
+                        System.out.println("Found word 2");
+                    }
+
+                    if (checkLogic1 == true && checkLogic2) // if a pair is formed in the same file, the search counter is incremented
+                    {
+                        System.out.println("Hit the counter!");
+                        searchcount++;
+                        checkLogic1 = false;
+                        checkLogic2 = false;
+                        scanner1.next();
+                    }
+                    scanner1.next(); // navigates through each word in file
+                    count++;
+                }
+            }
+            else if (doubleWordCheck == true && !logicCheck) // search process for double words
             {
                 String[] words = search.split(" ");
                 String word1 = words[0];
@@ -68,32 +108,33 @@ public class FileProcessor
                     count++;
                 }
             }
-
-            // normal 1 word search
-            while (scanner1.hasNext())
+            else // normal 1 word search
             {
-                if (scanner1.hasNext(search)) // if the next word is the search word
+                while (scanner1.hasNext())
                 {
-                    searchcount++;
+                    if (scanner1.hasNext(search)) // if the next word is the search word
+                    {
+                        searchcount++;
+                    }
+                    else if (scanner1.hasNext(search1))
+                    {
+                        searchcount++;
+                    }
+                    else if (scanner1.hasNext(search2))
+                    {
+                        searchcount++;
+                    }
+                    else if (scanner1.hasNext(search3))
+                    {
+                        searchcount++;
+                    }
+                    else if (scanner1.hasNext(search4))
+                    {
+                        searchcount++;
+                    }
+                    scanner1.next(); // navigates through each word in file
+                    count++;
                 }
-                else if (scanner1.hasNext(search1))
-                {
-                    searchcount++;
-                }
-                else if (scanner1.hasNext(search2))
-                {
-                    searchcount++;
-                }
-                else if (scanner1.hasNext(search3))
-                {
-                    searchcount++;
-                }
-                else if (scanner1.hasNext(search4))
-                {
-                    searchcount++;
-                }
-                scanner1.next(); // navigates through each word in file
-                count++;
             }
 
             // returns result of search
