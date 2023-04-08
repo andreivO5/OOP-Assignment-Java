@@ -12,7 +12,7 @@ public class Screen extends JFrame implements ActionListener, FocusListener
     JButton searchButton, newSearch, pathButton;
     JTextField searchField, pathField;
     JTextArea searchArea;
-    JLabel titleLabel, pathLabel, titleIcon;
+    JLabel titleLabel, pathLabel, titleIcon, searchLabel;
 
     public String search = null;
     public String changePath = null;
@@ -27,7 +27,7 @@ public class Screen extends JFrame implements ActionListener, FocusListener
     {
         JFrame frame1 = new JFrame(title);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame1.setSize(1000,800);
+        frame1.setSize(1000,1000);
         frame1.setLocationRelativeTo(null);
 
         panel = new JPanel();
@@ -53,6 +53,12 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         searchField.setFont(textFieldFont);
         searchField.setBounds(140, 100, 600, 40);
 
+        searchLabel = new JLabel("Tip: Use '&&' to separate two words for a logic search.");
+        panel.add(searchLabel);
+        searchLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        searchLabel.setBounds(190,150,550,40);
+        searchLabel.setForeground(Color.white);
+
         searchButton = new JButton("");
         searchButton.setIcon(searchIcon);
         panel.add(searchButton);
@@ -66,7 +72,7 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         searchArea.setRows(6);
         searchArea.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
         searchArea.setFont(new Font("Arial", Font.BOLD, 18));
-        searchArea.setBounds(160, 100, 440, 500);
+        searchArea.setBounds(40, 100, 600, 700);
         searchArea.setForeground(Color.white);
         searchArea.setBackground(Color.black);
 
@@ -74,12 +80,12 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         newSearch.setBackground(Color.green);
         newSearch.addActionListener(this);
         newSearch.setToolTipText("Search for another word.");
-        newSearch.setBounds(620, 300, 140, 40);
+        newSearch.setBounds(680, 300, 140, 40);
 
         pathLabel = new JLabel("Change the search space");
         panel.add(pathLabel);
         pathLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        pathLabel.setBounds(300,640,400,40);
+        pathLabel.setBounds(300,840,400,40);
         pathLabel.setForeground(Color.white);
 
         pathField = new JTextField();
@@ -87,16 +93,14 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         pathField.addFocusListener(this);
         pathField.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
         pathField.setFont(textFieldFont);
-        pathField.setBounds(80, 690, 540, 30);
+        pathField.setBounds(80, 890, 540, 30);
 
         pathButton = new JButton("Apply Search Space");
         panel.add(pathButton);
         pathButton.setBackground(Color.green);
         pathButton.addActionListener(this);
         pathButton.setToolTipText("This button applies the new search space.");
-        pathButton.setBounds(660, 690, 200, 30);
-
-
+        pathButton.setBounds(660, 890, 200, 30);
 
         frame1.setVisible(true);
 
@@ -115,14 +119,17 @@ public class Screen extends JFrame implements ActionListener, FocusListener
             {
                 panel.remove(searchField);
                 panel.remove(searchButton);
+                panel.remove(searchLabel);
                 panel.add(searchArea);
                 panel.add(newSearch);
                 panel.revalidate();
                 panel.repaint();
 
-                searchArea.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                searchArea.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                 searchArea.append("Searching for the word: "+ search + "\n");
-                searchArea.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                searchArea.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                searchArea.append("Search Space:\n"+ pathname + "\n");
+                searchArea.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                 File directoryPath = new File(pathname);
                 File filesList[] = directoryPath.listFiles();
 
@@ -139,6 +146,7 @@ public class Screen extends JFrame implements ActionListener, FocusListener
             panel.remove(newSearch);
             panel.add(searchField);
             panel.add(searchButton);
+            panel.add(searchLabel);
             panel.revalidate();
             panel.repaint();
 

@@ -26,6 +26,9 @@ public class FileProcessor
         String search3 = search.toUpperCase(); // Uppercase
         String search4 = search.substring(0,1).toUpperCase() + search.substring(1); // Capitalized
 
+        DecimalFormat df = new DecimalFormat(); // shows calculated ranking mechanism to 2 decimal points
+        df.setMaximumFractionDigits(2);
+
         try
         {
             File file1 = new File(filepath);
@@ -49,34 +52,49 @@ public class FileProcessor
                 String logicWord1 = logicWords[0];
                 String logicWord2 = logicWords[1];
 
-                boolean checkLogic1 = false;
-                boolean checkLogic2 = false;
-                System.out.println("next file");
+                int word1Counter = 0;
+                int word2Counter = 0;
 
                 while (scanner1.hasNext()) {
                     if (scanner1.hasNext(logicWord1)) // if the next word is the search word
                     {
-                        checkLogic1 = true;
-                        System.out.println("Found word 1");
+                        word1Counter++;
                     }
-
                     if (scanner1.hasNext(logicWord2)) // if the next word is the search word
                     {
-                        checkLogic2 = true;
-                        System.out.println("Found word 2");
-                    }
-
-                    if (checkLogic1 == true && checkLogic2) // if a pair is formed in the same file, the search counter is incremented
-                    {
-                        System.out.println("Hit the counter!");
-                        searchcount++;
-                        checkLogic1 = false;
-                        checkLogic2 = false;
-                        scanner1.next();
+                        word2Counter++;
                     }
                     scanner1.next(); // navigates through each word in file
                     count++;
                 }
+
+                // returns result of search
+                if ((word1Counter > 0) && (word2Counter == 0))
+                {
+                    result = df.format(((float)word1Counter/count)*100) + "%" + " match to the file: "
+                            + filename + "\nSearch term "+ "~~" + logicWord1 + "~~" + " was found "
+                            + word1Counter + " times" + "\nSearch term "+ "~~" + logicWord2 + "~~" +
+                            " was not found in the file.\n";
+                }
+                else if ((word2Counter > 0) && (word1Counter == 0))
+                {
+                    result = df.format(((float)word2Counter/count)*100) + "%" + " match to the file: "
+                            + filename + "\nSearch term "+ "~~" + logicWord2 + "~~" + " was found "
+                            + word2Counter + " times" + "\nSearch term "+ "~~" + logicWord1 + "~~" +
+                            " was not found in the file.\n";
+                }
+                else if ((word1Counter == 0) && (word2Counter == 0))
+                {
+                    result = "0% match, no results found in the file: "+ filename +"\n";
+                }
+                else if ((word1Counter > 0) && (word2Counter > 0))
+                {
+                    result = df.format(((float)(word1Counter + word2Counter)/count)*100) + "%" +
+                            " match to the file: " + filename + "\nSearch term "+ "~~" + logicWord1 + "~~" +
+                            " was found " + word1Counter + " times" + "\nSearch term "+ "~~" + logicWord2 + "~~" +
+                            " was found " + word2Counter + " times.\n";
+                }
+                scanner1.close();
             }
             else if (doubleWordCheck == true && !logicCheck) // search process for double words
             {
@@ -107,6 +125,19 @@ public class FileProcessor
                     scanner1.next(); // navigates through each word in file
                     count++;
                 }
+
+                // returns result of search
+                if (searchcount > 0)
+                {
+                    result = df.format(((float)searchcount/count)*100) + "%" + " match to the file: "
+                            + filename + "\nSearch term "+ "~~" + search + "~~" + " was found "
+                            + searchcount + " times" + "\n";
+                }
+                else if (searchcount == 0)
+                {
+                    result = "0% match, no results found in the file: "+ filename +"\n";
+                }
+                scanner1.close();
             }
             else // normal 1 word search
             {
@@ -135,22 +166,19 @@ public class FileProcessor
                     scanner1.next(); // navigates through each word in file
                     count++;
                 }
+                // returns result of search
+                if (searchcount > 0)
+                {
+                    result = df.format(((float)searchcount/count)*100) + "%" + " match to the file: "
+                            + filename + "\nSearch term "+ "~~" + search + "~~" + " was found "
+                            + searchcount + " times" + "\n";
+                }
+                else if (searchcount == 0)
+                {
+                    result = "0% match, no results found in the file: "+ filename +"\n";
+                }
+                scanner1.close();
             }
-
-            // returns result of search
-            if (searchcount > 0)
-            {
-                DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(2);
-                result = df.format(((float)searchcount/count)*100) + "%" + " match to the file: "
-                        + filename + "\nSearch term "+ "~~" + search + "~~" + " was found "
-                        + searchcount + " times" + "\n";
-            }
-            else if (searchcount == 0)
-            {
-                result = "0% match, no results found in the file: "+ filename +"\n";
-            }
-            scanner1.close();
         }
         catch (FileNotFoundException e)
         {
