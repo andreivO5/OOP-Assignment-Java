@@ -135,3 +135,24 @@ I would make the GUI more appealing and modern, as right now it is fairly basic 
 component positioning. I would also try implement more components such as scrolling as the text box does not always
 show all the contents of the search results.
 
+################################################
+            Final notes & Sources
+################################################
+
+Most of the code in this program I came up with myself, but for certain functions I had to source some code from the Internet to
+allow me to carry out the full functionality of the program. Here are all the websites that I looked at to help me with a couple
+of lines of code:
+
+https://www.javacodex.com/Files/Read-File-Word-By-Word
+https://www.tutorialspoint.com/how-to-read-data-from-all-files-in-a-directory-using-java
+https://www.geeksforgeeks.org/java-swing-jtextfield/
+https://coderanch.com/t/340488/java/Adding-removing-components-JPanel
+https://www.javatpoint.com/how-to-capitalize-the-first-letter-of-a-string-in-java
+https://stackoverflow.com/questions/4067809/how-can-i-find-whitespace-in-a-string
+https://stackoverflow.com/questions/3481828/how-do-i-split-a-string-in-java
+https://stackoverflow.com/questions/2538787/how-to-print-a-float-with-2-decimal-places-in-java
+https://stackoverflow.com/questions/17132452/java-check-if-jtextfield-is-empty-or-not
+http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/LoadimagetoImageIconandaddittoPanel.htm
+
+
+
