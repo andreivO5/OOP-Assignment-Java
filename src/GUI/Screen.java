@@ -8,15 +8,20 @@ import java.io.File;
 public class Screen extends JFrame implements ActionListener, FocusListener
 {
 
-    JPanel panel1;
-    JButton button1, newsearch, pathButton;
-    JTextField textField1, pathField;
-    JTextArea textArea1;
-    JLabel label1, pathLabel;
+    JPanel panel;
+    JButton searchButton, newSearch, pathButton;
+    JTextField searchField, pathField;
+    JTextArea searchArea;
+    JLabel titleLabel, pathLabel, titleIcon;
 
     public String search = null;
     public String changePath = null;
     public String pathname = "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\textfiles";
+
+    Icon searchIcon = new ImageIcon(
+            "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\src\\resources\\search2.png");
+    Icon titleImage = new ImageIcon(
+            "C:\\Users\\blaze\\Desktop\\oop_java\\Java Assignment OOP\\src\\resources\\titlesearch.png");
 
     public Screen(String title)
     {
@@ -25,61 +30,71 @@ public class Screen extends JFrame implements ActionListener, FocusListener
         frame1.setSize(1000,800);
         frame1.setLocationRelativeTo(null);
 
-        panel1 = new JPanel();
-        frame1.add(panel1);
-        panel1.setLayout(null);
-        panel1.setBackground(Color.gray);
+        panel = new JPanel();
+        frame1.add(panel);
+        panel.setLayout(null);
+        panel.setBackground(Color.BLACK);
 
-        label1 = new JLabel("AVSearch");
-        panel1.add(label1);
-        label1.setFont(new Font("Arial", Font.BOLD, 60));
-        label1.setBounds(350,20,600,60);
+        titleLabel = new JLabel("AVSearch");
+        panel.add(titleLabel);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60));
+        titleLabel.setBounds(350,20,300,60);
+        titleLabel.setForeground(Color.white);
 
-        textField1 = new JTextField();
-        panel1.add(textField1);
-        textField1.addFocusListener(this);
-        textField1.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
+        titleIcon = new JLabel(titleImage);
+        panel.add(titleIcon);
+        titleIcon.setBounds(660,15,60,60);
+
+        searchField = new JTextField();
+        panel.add(searchField);
+        searchField.addFocusListener(this);
+        searchField.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
         Font textFieldFont = new Font("Arial", Font.BOLD, 20);
-        textField1.setFont(textFieldFont);
-        textField1.setBounds(140, 100, 600, 40);
+        searchField.setFont(textFieldFont);
+        searchField.setBounds(140, 100, 600, 40);
 
-        button1 = new JButton("Search");
-        panel1.add(button1);
-        button1.setBackground(Color.green);
-        button1.addActionListener(this);
-        button1.setToolTipText("Search for the term above.");
-        button1.setBounds(770, 100, 80, 40);
+        searchButton = new JButton("");
+        searchButton.setIcon(searchIcon);
+        panel.add(searchButton);
+        searchButton.setBackground(Color.white);
+        searchButton.addActionListener(this);
+        searchButton.setToolTipText("Search for the term above.");
+        searchButton.setBounds(770, 100, 80, 40);
 
-        textArea1 = new JTextArea("Search Results:");
-        textArea1.setColumns(70);
-        textArea1.setRows(6);
-        textArea1.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-        textArea1.setBounds(200, 100, 400, 500);
+        searchArea = new JTextArea();
+        searchArea.setColumns(70);
+        searchArea.setRows(6);
+        searchArea.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
+        searchArea.setFont(new Font("Arial", Font.BOLD, 18));
+        searchArea.setBounds(160, 100, 440, 500);
+        searchArea.setForeground(Color.white);
+        searchArea.setBackground(Color.black);
 
-        newsearch = new JButton("New Search");
-        newsearch.setBackground(Color.green);
-        newsearch.addActionListener(this);
-        newsearch.setToolTipText("Search for another word.");
-        newsearch.setBounds(620, 250, 140, 40);
+        newSearch = new JButton("New Search");
+        newSearch.setBackground(Color.green);
+        newSearch.addActionListener(this);
+        newSearch.setToolTipText("Search for another word.");
+        newSearch.setBounds(620, 300, 140, 40);
 
         pathLabel = new JLabel("Change the search space");
-        panel1.add(pathLabel);
+        panel.add(pathLabel);
         pathLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        pathLabel.setBounds(300,600,400,40);
+        pathLabel.setBounds(300,640,400,40);
+        pathLabel.setForeground(Color.white);
 
         pathField = new JTextField();
-        panel1.add(pathField);
+        panel.add(pathField);
         pathField.addFocusListener(this);
         pathField.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
         pathField.setFont(textFieldFont);
-        pathField.setBounds(80, 650, 540, 30);
+        pathField.setBounds(80, 690, 540, 30);
 
         pathButton = new JButton("Apply Search Space");
-        panel1.add(pathButton);
+        panel.add(pathButton);
         pathButton.setBackground(Color.green);
         pathButton.addActionListener(this);
         pathButton.setToolTipText("This button applies the new search space.");
-        pathButton.setBounds(660, 650, 200, 30);
+        pathButton.setBounds(660, 690, 200, 30);
 
 
 
@@ -90,44 +105,44 @@ public class Screen extends JFrame implements ActionListener, FocusListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource()==button1)
+        if (e.getSource()== searchButton)
         {
-            if (textField1.getText().isEmpty())
+            if (searchField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(this, "Please input a search term.");
             }
             else
             {
-                panel1.remove(textField1);
-                panel1.remove(button1);
-                panel1.add(textArea1);
-                panel1.add(newsearch);
-                panel1.revalidate();
-                panel1.repaint();
+                panel.remove(searchField);
+                panel.remove(searchButton);
+                panel.add(searchArea);
+                panel.add(newSearch);
+                panel.revalidate();
+                panel.repaint();
 
-                textArea1.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-                textArea1.append("Searching for the word: "+ search + "\n");
-                textArea1.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                searchArea.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+                searchArea.append("Searching for the word: "+ search + "\n");
+                searchArea.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                 File directoryPath = new File(pathname);
                 File filesList[] = directoryPath.listFiles();
 
                 for(File file : filesList)
                 {
                     FileProcessor currentfile = new FileProcessor(file.getAbsolutePath(), file.getName());
-                    textArea1.append("\n" + currentfile.SearchFile(search));
+                    searchArea.append("\n" + currentfile.SearchFile(search));
                 }
             }
         }
-        if (e.getSource() == newsearch)
+        if (e.getSource() == newSearch)
         {
-            panel1.remove(textArea1);
-            panel1.remove(newsearch);
-            panel1.add(textField1);
-            panel1.add(button1);
-            panel1.revalidate();
-            panel1.repaint();
+            panel.remove(searchArea);
+            panel.remove(newSearch);
+            panel.add(searchField);
+            panel.add(searchButton);
+            panel.revalidate();
+            panel.repaint();
 
-            textArea1.setText("Search Results:\n");
+            searchArea.setText("");
         }
         if (e.getSource() == pathButton)
         {
@@ -147,9 +162,9 @@ public class Screen extends JFrame implements ActionListener, FocusListener
     @Override
     public void focusLost(FocusEvent e)
     {
-        if (e.getSource() == textField1)
+        if (e.getSource() == searchField)
         {
-            search = textField1.getText();
+            search = searchField.getText();
         }
         if (e.getSource() == pathField)
         {

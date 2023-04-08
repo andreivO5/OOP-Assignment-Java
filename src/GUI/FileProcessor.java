@@ -65,6 +65,7 @@ public class FileProcessor
                         }
                     }
                     scanner1.next(); // navigates through each word in file
+                    count++;
                 }
             }
 
@@ -99,9 +100,10 @@ public class FileProcessor
             if (searchcount > 0)
             {
                 DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(0);
+                df.setMaximumFractionDigits(2);
                 result = df.format(((float)searchcount/count)*100) + "%" + " match to the file: "
-                        + filename + "\nSearch term "+ search + " was found " + searchcount + " times" + "\n";
+                        + filename + "\nSearch term "+ "~~" + search + "~~" + " was found "
+                        + searchcount + " times" + "\n";
             }
             else if (searchcount == 0)
             {
